@@ -1,0 +1,44 @@
+/* ==========================================================================
+   JIHAD PAI — Badges & Status Pills
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.25rem 0.625rem;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.badge-neutral  { background-color: var(--bg-surface-alt); color: var(--text-body); }
+.badge-primary  { background-color: var(--color-primary-50); color: var(--color-primary-600); }
+.badge-accent   { background-color: var(--color-accent-50); color: var(--color-accent-600); }
+.badge-success  { background-color: var(--color-success-100); color: var(--color-success-500); }
+.badge-warning  { background-color: var(--color-warning-100); color: #8A5B00; }
+.badge-danger   { background-color: var(--color-danger-100); color: var(--color-danger-500); }
+.badge-info     { background-color: var(--color-info-100); color: var(--color-info-500); }
+
+.badge-hadir       { background-color: var(--color-success-100); color: var(--color-hadir); }
+.badge-izin        { background-color: var(--color-info-100);    color: var(--color-izin); }
+.badge-sakit       { background-color: var(--color-warning-100); color: #8A5B00; }
+.badge-alfa        { background-color: var(--color-danger-100);  color: var(--color-alfa); }
+.badge-dispensasi  { background-color: #F1EBFB; color: var(--color-dispensasi); }
+
+.badge-lots { background-color: var(--color-success-100); color: var(--color-lots); }
+.badge-mots { background-color: var(--color-warning-100); color: #8A5B00; }
+.badge-hots { background-color: var(--color-danger-100); color: var(--color-hots); }
+
+.badge-active   { background-color: var(--color-success-100); color: var(--color-success-500); }
+.badge-inactive { background-color: var(--bg-surface-alt); color: var(--text-muted); }

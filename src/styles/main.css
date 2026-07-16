@@ -1,0 +1,17 @@
+/* ==========================================================================
+   JIHAD PAI — main.css
+   Satu titik impor untuk seluruh berkas Design System (Sesi 0).
+   Urutan impor penting: token dasar dulu, baru komponen.
+   ========================================================================== */
+
+@import './variables.css';
+@import './base.css';
+@import './buttons.css';
+@import './cards.css';
+@import './inputs.css';
+@import './tables.css';
+@import './navigation.css';
+@import './modals.css';
+@import './badges.css';
+@import './utilities.css';
+@import './landing.css';

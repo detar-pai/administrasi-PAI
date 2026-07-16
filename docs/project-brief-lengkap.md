@@ -1,0 +1,318 @@
+Tentu! Ini adalah **versi lengkap, terperinci, dan disesuaikan sepenuhnya** dengan deskripsi alur kerja yang kamu berikan. Dokumen ini dibuat agar AI memahami **setiap detail perilaku aplikasi, letak tombol, hubungan antar data, hingga pengalaman pengguna**, sehingga hasil kodingnya jauh lebih akurat dan sesuai harapan.
+
+Simpan sebagai `docs/project-brief-lengkap.md` dan selalu tempel di awal sesi kerja baru. ✅
+
+---
+
+# PROJECT BRIEF LENGKAP — JIHAD PAI
+*(Jurnal, Informasi Harian, dan Administrasi Guru PAI)*
+
+> 📌 **CARA PAKAI:** Tempel seluruh dokumen ini di **awal setiap chat baru**, lalu tambahkan:
+> *"Lanjutkan proyek ini. Sekarang mengerjakan [Sesi X: Nama Fitur]. Lokasi folder: [path]. Ikuti SEMUA aturan, alur kerja, dan perilaku aplikasi yang dijelaskan secara rinci di bawah ini."*
+
+---
+
+## 1. IDENTITAS PROYEK
+| Item | Keterangan |
+|---|---|
+| Nama Aplikasi | **JIHAD PAI** (Jurnal, Informasi Harian, dan Administrasi Guru PAI) |
+| Jenis | Web App — Administrasi Pembelajaran Guru PAI + LMS Terintegrasi |
+| Tujuan Utama | Menjadikan satu tempat untuk seluruh kebutuhan administrasi & pembelajaran Guru PAI tanpa pindah aplikasi |
+| Target Pengguna | 1 Guru PAI (Admin) + Siswa SD (<100 orang) |
+| Platform | Cloudflare Pages / Workers / D1 / R2 (Free Tier) |
+| Status | ✅ Sesi 0 & 1 selesai → ⏩ Lanjut Sesi 2 |
+
+### Identitas Sekolah
+| Item | Keterangan |
+|---|---|
+| Nama Sekolah | **SDN 262 Panyileukan** |
+| Logo | `public/assets/images/logo-sekolah.png` |
+
+---
+
+## 2. GAMBARAN UMUM & PRINSIP KERJA
+JIHAD PAI adalah aplikasi website berbasis LMS sekaligus sistem administrasi khusus Guru PAI jenjang SD.
+
+**Prinsip Utama:**
+✅ **Terhubung Sepenuhnya:** Data yang diinput di satu halaman otomatis tersedia di halaman lain tanpa input ulang.
+✅ **Satu Sumber Data:** Data siswa hanya dikelola di satu tempat, dipakai di semua menu.
+✅ **Arsip Aman:** Ganti tahun ajaran hanya mengarsipkan data lama, tidak dihapus.
+✅ **Pengalaman Seragam:** Tampilan modern, responsif, ringan, nyaman di HP maupun komputer.
+
+---
+
+## 3. PEDOMAN DESAIN & TAMPILAN
+- **Gaya:** Modern, profesional, elegan, bernuansa Islami yang terasa namun tetap bersih.
+- **Warna:** Biru `#165DFF` (utama), Oranye `#FF7D00` (aksen), Putih `#FFFFFF` (latar).
+- **Font:** Poppins / Inter — bersih, mudah dibaca.
+- **Ikon:** Modern & jelas.
+- **Elemen UI:** Berbasis kartu (card), sudut membulat, bayangan halus, animasi ringan saat transisi halaman.
+- **Navigasi Admin:** Sidebar responsif → berubah jadi ikon garis tiga di layar HP.
+- **Mode:** Mendukung tampilan Terang & Gelap.
+
+---
+
+## 4. STRUKTUR FOLDER TERKUNCI ⚠️ WAJIB IKUTI
+**JANGAN PERNAH MEMBUAT:**
+- ❌ Folder `admin/` terpisah
+- ❌ Folder `css/` di luar `src/styles/`
+- ❌ Folder lain yang tidak tercantum di bawah ini
+
+```
+jihad-pai/
+├── public/                  → Halaman publik (Landing Page)
+│   ├── index.html
+│   └── assets/
+│       ├── images/
+│       └── icons/
+├── src/
+│   ├── main.js              → Titik awal aplikasi
+│   ├── assets/              → Gambar/icon internal
+│   ├── pages/               → Semua halaman, langsung sesuai nama fitur
+│   │   ├── dashboard/
+│   │   ├── data-siswa/
+│   │   ├── absensi/
+│   │   ├── penilaian/
+│   │   ├── catatan-siswa/
+│   │   ├── jurnal-guru/
+│   │   ├── bank-soal/
+│   │   ├── asesmen/
+│   │   ├── pengaturan/
+│   │   └── siswa/           → Halaman khusus siswa
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── layout/
+│   │   └── forms/
+│   ├── lib/
+│   └── styles/              → Semua berkas gaya disini
+├── functions/               → Kode backend/API
+├── database/                → Skema & migrasi data
+├── docs/                    → Panduan & catatan
+└── README.md
+```
+
+---
+
+## 5. DESKRIPSI LENGKAP SETIAP HALAMAN & ALUR KERJA
+
+### A. HALAMAN PUBLIK — LANDING PAGE
+Halaman pertama yang dilihat pengunjung, tanpa butuh login.
+
+**Navigasi Atas (Sticky):**
+- Kiri: Logo sekolah/Logo KKG PAI + Nama aplikasi lengkap.
+- Kanan: Tombol **Masuk/Login** → menuju pilihan login Admin atau Siswa.
+
+**Bagian Utama:**
+- Bagian pembuka menarik dengan ilustrasi Islami modern & kalimat penyambutan fungsi aplikasi.
+- **Area Konten Berganti Otomatis:** Menampilkan kutipan Islami, hadis lengkap Arab-terjemahan-sumber, ayat Al-Qur'an, kisah inspiratif nabi/sahabat, motivasi guru/siswa.
+  → Semua konten ini **dapat diubah/ditambah melalui Pengaturan oleh Admin**.
+
+**Bagian Bawah:**
+- Area Pengumuman Sekolah, Info Kegiatan PAI, Galeri Foto Dokumentasi.
+- Footer: Alamat sekolah, kontak, media sosial, hak cipta & versi aplikasi.
+
+---
+
+### B. HALAMAN ADMIN / GURU
+Menggunakan **Sidebar responsif** di kiri.
+
+#### 📊 DASHBOARD — PUSAT INFORMASI REAL-TIME
+Bagian paling atas: Ucapan selamat datang + Nama Guru + Nama Sekolah + Tahun Ajaran & Semester aktif.
+
+**Kartu Statistik Otomatis:**
+- Jumlah kelas yang diampu
+- Jumlah siswa aktif
+- Jumlah absensi yang sudah diisi
+- Jumlah jurnal mengajar
+- Jumlah asesmen berjalan
+- Jumlah soal di bank soal
+- Jumlah catatan siswa
+- Rata-rata nilai seluruh kelas
+
+**Grafik Interaktif:** Kehadiran siswa, perkembangan nilai tiap kelas, jumlah asesmen terlaksana, aktivitas guru semester ini.
+
+**Menu Pintas (Quick Access):** Langsung buka Absensi, Input Nilai, Buat Jurnal, Bank Soal, Asesmen, Data Siswa.
+
+**Peringatan/Notifikasi:** Muncul jika ada asesmen belum dinilai, jurnal belum diisi, atau data belum lengkap.
+
+---
+
+#### 🧑‍🎓 DATA SISWA — PUSAT DATA SISWA
+Sumber utama data siswa → otomatis muncul di semua menu lain.
+
+**Tampilan:** Tabel modern berisi NIS, NISN, Nama Lengkap, Jenis Kelamin, Kelas, Status, Akun Login.
+- Fitur: Cari, urutkan nama/kelas, filter kelas/status.
+
+**Cara Input:**
+- Tambah satu per satu lewat formulir.
+- **Import Excel massal** → sistem otomatis membuat akun login (username/password) untuk setiap siswa.
+
+**Pengelolaan Akun:** Ubah username, atur ulang sandi, buat sandi otomatis satu kelas.
+**Cetak Kartu Login:** Berisi identitas + username + password + QR Code.
+
+**Integrasi:** Siswa yang ditambah/diubah/dihapus → langsung terupdate di Absensi, Penilaian, Catatan, Asesmen, Akun Siswa.
+
+---
+
+#### ✅ ABSENSI — PENCATATAN KEHADIRAN CEPAT
+**Langkah Kerja:** Pilih Tahun Ajaran → Semester → Kelas → Tanggal → Nama siswa muncul otomatis.
+
+**Cara Isi:** Klik status di samping nama: **Hadir / Izin / Sakit / Alfa / Dispensasi**.
+- Tombol **Hadir Semua** → satu klik semua jadi hadir, tinggal ubah yang tidak hadir.
+- Fitur **Salin Absensi Hari Sebelumnya** → percepat pengisian jika lupa catat.
+
+**Rekapitulasi:** Otomatis hitung jumlah tiap status harian, lalu tampilkan rekap harian/bulanan/semester lengkap grafik.
+**Ekspor:** Excel/PDF lengkap kop surat sekolah.
+
+---
+
+#### 📝 PENILAIAN — TABEL NILAI SEPERTI SPREADSHEET
+**Langkah Kerja:** Pilih Tahun Ajaran → Semester → Kelas → Daftar siswa muncul otomatis.
+
+**Fitur Tabel:**
+- Kolom No, NIS, Nama **tetap diam (Freeze)** saat digulir ke samping.
+- Tambah kolom nilai sendiri sesuai kebutuhan: Ulangan Harian, Formatif, Sumatif, Hafalan, Proyek, dll.
+- Input nilai 0–100 → **otomatis hitung rata-rata per siswa**.
+
+**Statistik Kelas Bawah:** Nilai tertinggi/terendah, rata-rata kelas, jumlah tuntas/belum tuntas, butuh bimbingan.
+
+**Integrasi:** Hasil pengerjaan Asesmen Online **langsung masuk ke tabel ini**, masih bisa diedit manual jika perlu.
+**Ekspor:** Excel/Word/PDF lengkap kop surat.
+
+---
+
+#### 📋 CATATAN SISWA — REKAM JEJAK PERKEMBANGAN
+Mencatat hal positif maupun hal yang perlu dibina.
+
+**Langkah Kerja:** Filter Tahun Ajaran → Semester → Kelas → Pilih nama siswa dari daftar (tidak ketik ulang).
+
+**Isi Catatan:**
+- Pilih jenis catatan: Anekdot, Kebaikan, Pelanggaran, Prestasi, Konseling, Sikap Spiritual/Sosial, dll → **jenis bisa ditambah sendiri di Pengaturan**.
+- Isi tanggal, judul, rincian kejadian, tindakan yang dilakukan, tindak lanjut.
+- Bisa lampirkan foto/dokumen bukti.
+
+**Riwayat:** Setiap simpan → masuk ke **Timeline Catatan Siswa**, terlihat urut berdasarkan tanggal saat nama dibuka kembali.
+**Fitur Tambahan:** Cari cepat, filter kelas/jenis/rentang tanggal, edit/hapus catatan, ekspor laporan.
+**Integrasi:** Jika data siswa berubah/pindah kelas → riwayat catatan tetap mengikuti identitas terbaru.
+
+---
+
+#### 📅 JURNAL GURU — DOKUMENTASI KEGIATAN MENGAJAR
+Otomatis isi tanggal hari ini + periode aktif saat dibuka.
+
+**Formulir Lengkap:** Hari & Tanggal, Kelas, Materi/Bab, Tujuan Pembelajaran, Kegiatan Pembelajaran (luas), Metode, Media, Hasil Belajar, Kendala & Solusi, Keterangan.
+
+**Fitur Tambahan:**
+- Simpan, Edit, Hapus, **Gandakan sebagai templat** untuk materi serupa.
+- Tampilan Kalender: Tanda tanggal yang sudah ada jurnal → mudah cek yang belum terisi.
+- Riwayat jurnal bisa difilter kelas/bulan/semester.
+**Ekspor:** Rekap otomatis bulanan/semester ke Excel/Word/PDF.
+**Integrasi:** Jumlah jurnal langsung terupdate di Dashboard.
+
+---
+
+#### 📚 BANK SOAL — PUSAT SOAL PAKAI BERKALI-KALI
+Buat soal sekali → pakai berkali-kali di berbagai ujian.
+
+**Saat Tambah Soal Baru:**
+- Isi info dasar: Kelas, Bab/Materi, Tujuan, Tingkat Berpikir (**LOTS / MOTS / HOTS**).
+- Pilih Jenis Soal: Pilihan Ganda, Benar-Salah, Menjodohkan, Isian Singkat, Uraian, dll.
+- Editor: Bisa tebal/miring/daftar/tabel/gambar/simbol matematika/teks Arab dengan baik.
+- Soal Uraian: Bisa tambah rubrik penilaian.
+- Bisa **Import Excel massal** dengan notifikasi jika ada kesalahan format.
+
+**Pengelolaan:** Status Aktif/Tidak Aktif, cari & filter lengkap.
+**Integrasi:** Langsung dipilih saat membuat Asesmen baru.
+
+---
+
+#### 📝 ASESMEN — UJIAN ONLINE SISTEMATIS
+Mengambil soal langsung dari Bank Soal.
+
+**Saat Buat Ujian:**
+- Tentukan nama ujian, kelas, periode, mata pelajaran.
+- Atur Waktu & Durasi: Tanggal mulai/selesai, jam, batas waktu pengerjaan.
+- Pengaturan Tambahan: Banyak percobaan, **acak urutan soal**, acak pilihan jawaban, tampilkan nilai/kunci jawaban atau sembunyikan.
+- Pilih soal: Pilih manual atau ambil otomatis berdasarkan kriteria kelas/bab/tingkat kesulitan.
+- Ada halaman **Pratinjau** sebelum dipublikasikan.
+
+**Saat Siswa Mengerjakan:**
+- Tampilan bersih fokus soal, **penghitung waktu mundur selalu terlihat**.
+- **Simpan Otomatis** setiap beberapa detik → jawaban aman meski terputus koneksi.
+- Indikator soal mana yang sudah/belum dijawab.
+
+**Selesai Mengerjakan:**
+- Soal Objektif: **Koreksi otomatis → nilai langsung masuk ke Penilaian**.
+- Soal Uraian: Halaman khusus koreksi manual lengkap rubrik.
+- Rekap hasil: Peserta, kehadiran, rata-rata, ketuntasan, analisis tingkat kesulitan soal.
+**Ekspor:** Hasil ujian ke Excel/PDF.
+
+---
+
+#### ⚙️ PENGATURAN — PUSAT KONFIGURASI APLIKASI
+Semua pengaturan sistem ada di sini:
+- **Identitas Sekolah:** Nama, alamat, kontak, kepala sekolah, nama guru, unggah logo.
+- **Kop Surat:** Atur tampilan otomatis di semua dokumen ekspor.
+- **Tahun Ajaran:** Buat baru → aktifkan otomatis, data lama tersimpan rapi sebagai arsip.
+- **Tampilan:** Ubah warna tema, mode terang/gelap, logo aplikasi.
+- **Akun Pengguna:** Ubah profil, nama pengguna, sandi.
+- **Cadangan Data:** Backup seluruh data ke berkas / Restore data dari berkas.
+
+---
+
+### C. HALAMAN SISWA — SEDERHANA & MUDAH DIPAHAMI ANAK SD
+Setelah login: Dashboard menyapa nama siswa + kelas + info ujian berjalan/akan datang + kutipan Islami berganti.
+
+**Menu Siswa:**
+1. **Dashboard:** Ringkasan kegiatan.
+2. **Asesmen:** Lihat daftar ujian sesuai kelas, kerjakan soal, lihat hasil jika diizinkan guru.
+3. **Riwayat Nilai:** Rekap nilai dari waktu ke waktu, bisa difilter semester/tahun.
+4. **Profil:** Lihat identitas, ganti sandi sendiri demi keamanan.
+
+**Desain:** Tombol besar, ikon jelas, bahasa sederhana, tidak membingungkan.
+
+---
+
+## 6. TAHAP PEMBANGUNAN & STATUS
+**ATURAN KERJA:** 1 SESI = 1 FITUR = 1 FOLDER. Ikuti urutan, jangan campur aduk.
+
+| Sesi | Nama Fitur | Lokasi Folder | Status |
+|---|---|---|---|
+| 0 | **Design System** — Warna, font, tombol, kartu, navigasi | `src/styles/`, `src/components/` | ✅ SELESAI |
+| 1 | Landing Page / Halaman Utama Publik | `public/` | ✅ SELESAI |
+| 2 | Login Admin + Kelola Data Siswa | `src/pages/data-siswa/` | ⬜ BELUM MULAI |
+| 3 | Absensi & Rekapitulasi | `src/pages/absensi/` | ⬜ BELUM MULAI |
+| 4 | Pengelolaan Nilai | `src/pages/penilaian/` | ⬜ BELUM MULAI |
+| 5 | Jurnal Kegiatan Guru | `src/pages/jurnal-guru/` | ⬜ BELUM MULAI |
+| 6 | Catatan Perkembangan Siswa | `src/pages/catatan-siswa/` | ⬜ BELUM MULAI |
+| 7 | Bank Soal | `src/pages/bank-soal/` | ⬜ BELUM MULAI |
+| 8 | Asesmen Online + Halaman Siswa | `src/pages/asesmen/`, `src/pages/siswa/` | ⬜ BELUM MULAI |
+| 9 | Pengaturan, Ekspor, Cadangan Data | `src/pages/pengaturan/` | ⬜ BELUM MULAI |
+| 10 | Fitur Tambahan Lainnya | masing-masing di `src/pages/` | ⬜ BELUM MULAI |
+| 11 | Sambungkan ke Database Cloudflare D1 | `database/`, `functions/` | ⬜ BELUM MULAI |
+
+---
+
+## 7. LOG PROGRESS
+### 📅 2026-07-10 — Sesi 0: Design System
+- **Dikerjakan:** Palet warna, tipografi, komponen UI dasar, navigasi, ikon, Dark Mode.
+- **Keputusan:** Font Poppins/Inter; Warna utama Biru #165DFF & Oranye #FF7D00; Semua pakai variabel CSS.
+- **Berkas:** `variables.css`, `base.css`, tombol/kartu/input/modal/tabel, sidebar/navbar/footer.
+- **Lanjutan:** Sesi 1 — Landing Page di folder `public/`
+
+### 📅 2026-07-14 — Sesi 1: Landing Page / Halaman Utama Publik
+- **Dikerjakan:** `public/index.html` lengkap dengan navbar sticky + menu mobile off-canvas,
+  hero dengan ilustrasi Islami modern (SVG asli), area konten berganti otomatis (kutipan,
+  hadis, ayat, kisah, motivasi) dengan autoplay + dot navigasi + tombol panah, bagian fitur
+  singkat, Pengumuman & Kegiatan PAI, Galeri Dokumentasi, CTA masuk, dan footer lengkap.
+- **Berkas baru:** `src/styles/landing.css` (diimpor di `main.css`), `src/lib/landing-content.js`
+  (data kutipan/hadis/ayat/kisah/motivasi + pengumuman + galeri — siap disambungkan ke
+  Pengaturan/D1), `src/lib/landing.js` (logika rotator, menu mobile, render dinamis).
+- **Keputusan:** Konten Islami disusun sebagai data terpisah agar Sesi 9 (Pengaturan) tinggal
+  mengganti sumbernya ke API/D1 tanpa mengubah markup. Ilustrasi hero dibuat sebagai SVG asli
+  (bukan gambar berhak cipta) bertema masjid + bulan sabit sesuai nuansa Islami modern.
+  Galeri dokumentasi memakai ubin placeholder berwarna karena belum ada foto asli — diberi
+  catatan agar Admin mengunggah foto sungguhan lewat Pengaturan.
+- **Lanjutan:** Sesi 2 — Login Admin + Kelola Data Siswa di folder `src/pages/data-siswa/`
+
+---

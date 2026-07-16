@@ -1,0 +1,74 @@
+/* ==========================================================================
+   JIHAD PAI — Tables
+   ========================================================================== */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-surface);
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  white-space: nowrap;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: var(--bg-surface-alt);
+  color: var(--text-heading);
+  font-weight: var(--fw-semibold);
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1;
+}
+
+.table tbody td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-body);
+}
+
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover td { background-color: var(--bg-hover); }
+
+.table-striped tbody tr:nth-child(even) td { background-color: var(--bg-surface-alt); }
+
+.table-actions {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.table .col-freeze {
+  position: sticky;
+  left: 0;
+  background-color: var(--bg-surface);
+  z-index: 2;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.04);
+}
+.table thead .col-freeze { z-index: 3; background-color: var(--bg-surface-alt); }
+
+.col-freeze-1 { left: 0; }
+.col-freeze-2 { left: var(--freeze-offset-2, 48px); }
+.col-freeze-3 { left: var(--freeze-offset-3, 120px); }
+
+.table-empty {
+  padding: var(--space-12) var(--space-4);
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.data-card-list { display: none; flex-direction: column; gap: var(--space-3); }
+
+@media (max-width: 768px) {
+  .table-wrapper.responsive-cards { display: none; }
+  .data-card-list { display: flex; }
+}
